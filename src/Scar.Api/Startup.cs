@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Scar.Api.Authentication;
+using Scar.Api.Authentication.Database;
+using Scar.Api.Authentication.Database.Model;
 
 namespace Scar.Api
 {
@@ -25,6 +29,25 @@ namespace Scar.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var secret = new ScarJwtSecret(new byte[] {0, 1, 2});
+
+            services.AddAuthentication()
+                .AddScarJwtBearer(x => 
+                {
+                    x.Secret = secret;
+                    x.ValidationParameters = new TokenValidationParameters
+                        {
+                            IssuerSigningKey = new SymmetricSecurityKey(secret.Data),
+                            ValidateActor = false,
+                            ValidateAudience = false,
+                            ValidateIssuer = false,
+                            ValidateLifetime = false,
+                            ValidateIssuerSigningKey = false,
+                            RequireExpirationTime = false
+                        };
+                })
+                .AddUserStore<ScarUserDbContext>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

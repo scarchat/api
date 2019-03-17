@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Scar.Api.Authentication
             ILoggerFactory loggerFactory,
             UrlEncoder urlEncoder,
             ISystemClock systemClock,
-            ScarJwtDbContext<ScarJwtUser> database)
+            ScarJwtDbContext database)
             : base(optionsMonitor, loggerFactory, urlEncoder, systemClock)
         {
             this._tokenHandler = new JwtSecurityTokenHandler();
@@ -45,9 +46,34 @@ namespace Scar.Api.Authentication
             throw new System.NotImplementedException();
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            throw new System.NotImplementedException();
+            if (!this.Context.Request.Headers.TryGetValue("Authentication", out var authHeaderValues))
+                return AuthenticateResult.Fail("No authentication header provided");
+
+            var authValue = authHeaderValues.First();
+
+            bool TryConsume(string input, out string rest)
+            {
+                rest = string.Empty;
+                int position = input.IndexOf(input);
+                if (position == -1) return false;
+                rest = input.Substring(position, input.Length);
+                return true;
+            }
+
+            if (!TryConsume("Bearer ", out var token))
+                return AuthenticateResult.Fail("No valid token type");
+
+            var claims = ValidateToken(token, Options.ValidationParameters, out var validatedToken);
+
+            Context.User = claims;
+
+            await Context.SignInAsync(claims);
+
+            var authTicket = new AuthenticationTicket(claims, ScarJwtDefaults.AuthenticationScheme);
+
+            return AuthenticateResult.Success(authTicket);
         }
     }
 }
