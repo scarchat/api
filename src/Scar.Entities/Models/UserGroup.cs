@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scar.Entities.Models
 {
-    class UserGroup
+    public sealed class UserGroup
     {
     }
 }

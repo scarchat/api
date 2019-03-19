@@ -1,10 +1,11 @@
-﻿using System;
+﻿using GraphQL.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Scar.Entities.Models
 {
-    class NodeGraph
+    public sealed class NodeGraph : ObjectGraphType<Node>
     {
     }
 }

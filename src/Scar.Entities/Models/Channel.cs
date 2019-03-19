@@ -4,7 +4,12 @@ using System.Text;
 
 namespace Scar.Entities.Models
 {
-    class Channel
+    public sealed class Channel
     {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public List<Message> Messages { get; set; }
     }
 }

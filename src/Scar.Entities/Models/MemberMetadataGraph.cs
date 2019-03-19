@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scar.Entities.Models
 {
-    class MemberMetadataGraph
+    public sealed class MemberMetadataGraph
     {
     }
 }
