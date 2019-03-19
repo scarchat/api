@@ -5,6 +5,6 @@ namespace Scar.Api.Authentication
         public byte[] Data { get; private set; }
 
         public ScarJwtSecret(byte[] data)
-            => this.Data = data;
+            => Data = data;
     }
 }

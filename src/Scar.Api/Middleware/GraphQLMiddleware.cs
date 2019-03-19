@@ -25,10 +25,10 @@ namespace Scar.Api.Middleware
 
         public GraphQLMiddleware(RequestDelegate next, GraphQLSettings settings, IDocumentExecuter executer, IDocumentWriter writer)
         {
-            this._next = next;
-            this._settings = settings;
-            this._executer = executer;
-            this._writer = writer;
+            _next = next;
+            _settings = settings;
+            _executer = executer;
+            _writer = writer;
         }
 
         public async Task Invoke(HttpContext context, ISchema schema)

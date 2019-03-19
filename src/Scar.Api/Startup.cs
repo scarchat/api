@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GraphiQl;
+﻿using GraphiQl;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scar.Api.Authentication;
 using Scar.Api.Authentication.Database;
-using Scar.Api.Authentication.Database.Model;
 using Scar.Api.Middleware;
 using Scar.Entities;
 using Scar.Entities.Models;
@@ -37,22 +28,22 @@ namespace Scar.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var secret = new ScarJwtSecret(new byte[] {0, 1, 2});
+            var secret = new ScarJwtSecret(new byte[] { 0, 1, 2 });
 
             services.AddAuthentication()
-                .AddScarJwtBearer(x => 
+                .AddScarJwtBearer(x =>
                 {
                     x.Secret = secret;
                     x.ValidationParameters = new TokenValidationParameters
-                        {
-                            IssuerSigningKey = new SymmetricSecurityKey(secret.Data),
-                            ValidateActor = false,
-                            ValidateAudience = false,
-                            ValidateIssuer = false,
-                            ValidateLifetime = false,
-                            ValidateIssuerSigningKey = false,
-                            RequireExpirationTime = false
-                        };
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(secret.Data),
+                        ValidateActor = false,
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = false,
+                        RequireExpirationTime = false
+                    };
                 })
                 .AddUserStore<ScarUserDbContext>();
 
@@ -85,6 +76,7 @@ namespace Scar.Api
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>()
                 .AddSingleton<IDocumentWriter, DocumentWriter>()
                 .AddSingleton<ScarChatQuery>()
+                .AddSingleton<ScarChatMutation>()
                 .AddSingleton<IdGraphType>()
                 .AddSingleton<UserGraph>()
                 .AddSingleton<ChannelGraph>()

@@ -1,20 +1,19 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scar.Api.Authentication.Database;
 using Scar.Api.Authentication.Database.Model;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace Scar.Api.Authentication
 {
     public class ScarJwtSecurityTokenHandler<TOptions> : AuthenticationHandler<TOptions>, ISecurityTokenValidator
-        where TOptions: ScarJwtOptions, new()
+        where TOptions : ScarJwtOptions, new()
     {
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly ScarJwtDbContext<ScarJwtUser> _database;
@@ -27,19 +26,19 @@ namespace Scar.Api.Authentication
             ScarJwtDbContext database)
             : base(optionsMonitor, loggerFactory, urlEncoder, systemClock)
         {
-            this._tokenHandler = new JwtSecurityTokenHandler();
+            _tokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public bool CanValidateToken => this._tokenHandler.CanValidateToken;
+        public bool CanValidateToken => _tokenHandler.CanValidateToken;
 
         public int MaximumTokenSizeInBytes
-            {
-                get => this.maxTokenSizeInBytes;
-                set => this.maxTokenSizeInBytes = value;
-            }
+        {
+            get => maxTokenSizeInBytes;
+            set => maxTokenSizeInBytes = value;
+        }
 
         public bool CanReadToken(string securityToken)
-            => this._tokenHandler.CanReadToken(securityToken);
+            => _tokenHandler.CanReadToken(securityToken);
 
         public ClaimsPrincipal ValidateToken(string securityToken, TokenValidationParameters validationParameters, out SecurityToken validatedToken)
         {
@@ -48,8 +47,10 @@ namespace Scar.Api.Authentication
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!this.Context.Request.Headers.TryGetValue("Authentication", out var authHeaderValues))
+            if (!Context.Request.Headers.TryGetValue("Authentication", out var authHeaderValues))
+            {
                 return AuthenticateResult.Fail("No authentication header provided");
+            }
 
             var authValue = authHeaderValues.First();
 
@@ -57,13 +58,19 @@ namespace Scar.Api.Authentication
             {
                 rest = string.Empty;
                 int position = input.IndexOf(input);
-                if (position == -1) return false;
+                if (position == -1)
+                {
+                    return false;
+                }
+
                 rest = input.Substring(position, input.Length);
                 return true;
             }
 
             if (!TryConsume("Bearer ", out var token))
+            {
                 return AuthenticateResult.Fail("No valid token type");
+            }
 
             var claims = ValidateToken(token, Options.ValidationParameters, out var validatedToken);
 
