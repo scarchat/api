@@ -9,6 +9,9 @@ namespace Scar.Entities.Models
     {
         public UserGraph()
         {
+            Name = "user";
+            Description = "The base, universal type for users of the Scar platform.";
+
             Field(u => u.Id)
                 .Name("id");
 

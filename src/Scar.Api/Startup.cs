@@ -54,15 +54,7 @@ namespace Scar.Api
                 })
                 .AddUserStore<ScarUserDbContext>();
 
-
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, DocumentWriter>();
-            services.AddSingleton<ScarChatQuery>();
-            services.AddSingleton<IdGraphType>();
-            services.AddSingleton<UserGraph>();
-
-            var provider = services.BuildServiceProvider();
-            services.AddSingleton<ISchema>(new ScarChatSchema(new FuncDependencyResolver(type => provider.GetService(type))));
+            RegisterGraphQLServices(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -83,6 +75,26 @@ namespace Scar.Api
             app.UseHttpsRedirection();
             app.UseGraphiQl(path: "/graphql", apiPath: "/api");
             app.UseMvc();
+        }
+
+        private void RegisterGraphQLServices(IServiceCollection services)
+        {
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<IDocumentWriter, DocumentWriter>();
+            services.AddSingleton<ScarChatQuery>();
+            services.AddSingleton<IdGraphType>();
+            services.AddSingleton<UserGraph>();
+            services.AddSingleton<ChannelGraph>();
+            services.AddSingleton<ChannelPermissionsGraph>();
+            services.AddSingleton<MemberMetadataGraph>();
+            services.AddSingleton<MessageGraph>();
+            services.AddSingleton<NodeGraph>();
+            services.AddSingleton<NodePermissionsGraph>();
+            services.AddSingleton<UserGroupGraph>();
+
+            var provider = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new ScarChatSchema(new FuncDependencyResolver(type => provider.GetService(type))));
+
         }
     }
 }

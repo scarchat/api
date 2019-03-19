@@ -12,7 +12,7 @@ namespace Scar.Entities.Models
 
         public int Color { get; set; }
 
-        public List<NodePermissions> NodePermissions { get; set; }
+        public NodePermissions NodePermissions { get; set; }
 
         public List<ChannelPermissions> ChannelPermissions { get; set; }
     }

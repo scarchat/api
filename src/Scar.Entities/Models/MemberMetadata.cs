@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Scar.Entities.Models
 {
-    public sealed class MemberMetadata : ObjectGraphType<MemberMetadata>
+    public sealed class MemberMetadata
     {
         public string Id { get; set; }
 
