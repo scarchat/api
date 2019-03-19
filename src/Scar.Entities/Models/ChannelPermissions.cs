@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Scar.Entities.Models
 {
-    public sealed class Message
+    public sealed class ChannelPermissions
     {
         public string Id { get; set; }
 
-        public User Author { get; set; }
+        public int Grant { get; set; }
 
-        public string Content { get; set; }
+        public int Deny { get; set; }
     }
 }

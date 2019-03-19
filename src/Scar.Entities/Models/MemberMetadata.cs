@@ -11,6 +11,6 @@ namespace Scar.Entities.Models
 
         public string Nickname { get; set; }
 
-        public List<string> UserGroupIds { get; set; }
+        public List<UserGroup> UserGroups { get; set; }
     }
 }
