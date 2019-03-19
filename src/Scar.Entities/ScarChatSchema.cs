@@ -11,7 +11,7 @@ namespace Scar.Entities
         public ScarChatSchema(IDependencyResolver resolver) : base(resolver)
         {
             Query = resolver.Resolve<ScarChatQuery>();
-            // Mutation = resolver.Resolve<ScarChatMutation>();
+            Mutation = resolver.Resolve<ScarChatMutation>();
         }
     }
 }

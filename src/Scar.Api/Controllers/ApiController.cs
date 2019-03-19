@@ -30,23 +30,23 @@ namespace Scar.Api.Controllers
 
         public ApiController(IDocumentExecuter executer, IDocumentWriter writer, ISchema schema)
         {
-            _executer = executer;
-            _writer = writer;
-            _schema = schema;
+            this._executer = executer;
+            this._writer = writer;
+            this._schema = schema;
         }
 
         [HttpPost]
         public async Task<string> Query([FromBody] GraphQLQuery query)
         {
             var inputs = query.Variables.ToInputs();
-            var result = await _executer.ExecuteAsync(_ =>
+            var result = await _executer.ExecuteAsync(options =>
             {
-                _.Schema = _schema;
-                _.Query = query.Query;
-                _.OperationName = query.OperationName;
-                _.Inputs = inputs;
+                options.Schema = _schema;
+                options.Query = query.Query;
+                options.OperationName = query.OperationName;
+                options.Inputs = inputs;
 
-                _.ComplexityConfiguration = _complexity;
+                options.ComplexityConfiguration = _complexity;
             }).ConfigureAwait(false);
 
             var httpResult = result.Errors?.Count > 0 ? HttpStatusCode.BadRequest : HttpStatusCode.OK;

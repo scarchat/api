@@ -79,18 +79,18 @@ namespace Scar.Api
 
         private void RegisterGraphQLServices(IServiceCollection services)
         {
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, DocumentWriter>();
-            services.AddSingleton<ScarChatQuery>();
-            services.AddSingleton<IdGraphType>();
-            services.AddSingleton<UserGraph>();
-            services.AddSingleton<ChannelGraph>();
-            services.AddSingleton<ChannelPermissionsGraph>();
-            services.AddSingleton<MemberMetadataGraph>();
-            services.AddSingleton<MessageGraph>();
-            services.AddSingleton<NodeGraph>();
-            services.AddSingleton<NodePermissionsGraph>();
-            services.AddSingleton<UserGroupGraph>();
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>()
+                .AddSingleton<IDocumentWriter, DocumentWriter>()
+                .AddSingleton<ScarChatQuery>()
+                .AddSingleton<IdGraphType>()
+                .AddSingleton<UserGraph>()
+                .AddSingleton<ChannelGraph>()
+                .AddSingleton<ChannelPermissionsGraph>()
+                .AddSingleton<MemberMetadataGraph>()
+                .AddSingleton<MessageGraph>()
+                .AddSingleton<NodeGraph>()
+                .AddSingleton<NodePermissionsGraph>()
+                .AddSingleton<UserGroupGraph>();
 
             var provider = services.BuildServiceProvider();
             services.AddSingleton<ISchema>(new ScarChatSchema(new FuncDependencyResolver(type => provider.GetService(type))));

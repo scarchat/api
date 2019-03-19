@@ -9,7 +9,7 @@ namespace Scar.Entities
 {
     public sealed class ScarChatQuery : ObjectGraphType
     {
-        static Node DemoNode = new Node()
+        private static Node DemoNode = new Node()
         {
             Id = "test",
             Name = "Demo",
