@@ -8,6 +8,7 @@ using GraphQL.Http;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scar.Api.Authentication;
 using Scar.Api.Authentication.Database;
 using Scar.Api.Authentication.Database.Model;
+using Scar.Api.Middleware;
 using Scar.Entities;
 using Scar.Entities.Models;
 
@@ -74,6 +76,7 @@ namespace Scar.Api
 
             app.UseHttpsRedirection();
             app.UseGraphiQl(path: "/graphql", apiPath: "/api");
+            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings());
             app.UseMvc();
         }
 
@@ -94,7 +97,6 @@ namespace Scar.Api
 
             var provider = services.BuildServiceProvider();
             services.AddSingleton<ISchema>(new ScarChatSchema(new FuncDependencyResolver(type => provider.GetService(type))));
-
         }
     }
 }
