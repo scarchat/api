@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphiQl;
+using GraphQL;
+using GraphQL.Http;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +18,8 @@ using Microsoft.IdentityModel.Tokens;
 using Scar.Api.Authentication;
 using Scar.Api.Authentication.Database;
 using Scar.Api.Authentication.Database.Model;
+using Scar.Entities;
+using Scar.Entities.Models;
 
 namespace Scar.Api
 {
@@ -48,6 +54,8 @@ namespace Scar.Api
                 })
                 .AddUserStore<ScarUserDbContext>();
 
+            RegisterGraphQLServices(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -65,7 +73,28 @@ namespace Scar.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseGraphiQl(path: "/graphql", apiPath: "/api");
             app.UseMvc();
+        }
+
+        private void RegisterGraphQLServices(IServiceCollection services)
+        {
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>()
+                .AddSingleton<IDocumentWriter, DocumentWriter>()
+                .AddSingleton<ScarChatQuery>()
+                .AddSingleton<IdGraphType>()
+                .AddSingleton<UserGraph>()
+                .AddSingleton<ChannelGraph>()
+                .AddSingleton<ChannelPermissionsGraph>()
+                .AddSingleton<MemberMetadataGraph>()
+                .AddSingleton<MessageGraph>()
+                .AddSingleton<NodeGraph>()
+                .AddSingleton<NodePermissionsGraph>()
+                .AddSingleton<UserGroupGraph>();
+
+            var provider = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new ScarChatSchema(new FuncDependencyResolver(type => provider.GetService(type))));
+
         }
     }
 }
