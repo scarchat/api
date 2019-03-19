@@ -6,6 +6,9 @@ namespace Scar.Entities.Models
     {
         public NodeGraph()
         {
+            Name = "node";
+            Description = "A collection of users and channels, as well as surrounding metadata.";
+
             Field(n => n.Id)
                 .Name("id")
                 .Description("The unique identifier of the node.");

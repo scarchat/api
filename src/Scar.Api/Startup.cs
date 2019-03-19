@@ -1,10 +1,12 @@
 ﻿using GraphiQl;
 using GraphQL;
 using GraphQL.Http;
+using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;

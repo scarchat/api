@@ -6,6 +6,7 @@ namespace Scar.Entities.Models
     {
         public NodePermissionsGraph()
         {
+            Name = "nodePermissions";
             Description = "A container for node-level permissions metadata.";
 
             Field(x => x.Id)

@@ -10,11 +10,14 @@ namespace Scar.Entities
     {
         public ScarChatMutation()
         {
-            Field<ChannelGraph>("createChannel", description: "Create a new channel.",
+            Name = "mutateApi";
+            Description = "Provides methods to perform client actions over HTTP.";
+
+            Field<ChannelGraph>("createChannel", description: "Creates a new channel.",
                 arguments: new QueryArguments(new[]
                 {
-                    new QueryArgument<StringGraphType>() { Name = "nodeId" },
-                    new QueryArgument<StringGraphType>() { Name = "name" }
+                    new QueryArgument<StringGraphType>() { Name = "nodeId", Description = "The id of the node this channel is in." },
+                    new QueryArgument<StringGraphType>() { Name = "name", Description = "The name of the channel to be created." }
                 }),
                 resolve: context =>
                 {
@@ -24,11 +27,11 @@ namespace Scar.Entities
                     return new Channel() { Name = name };
                 });
 
-            Field<ChannelGraph>("deleteChannel", description: "Delete an existing channel.",
+            Field<ChannelGraph>("deleteChannel", description: "Deletes an existing channel.",
                 arguments: new QueryArguments(new[]
                 {
-                    new QueryArgument<StringGraphType>() { Name = "nodeId" },
-                    new QueryArgument<StringGraphType>() { Name = "id" }
+                    new QueryArgument<StringGraphType>() { Name = "nodeId", Description = "The id of the node this channel is in." },
+                    new QueryArgument<StringGraphType>() { Name = "id", Description = "The id of the channel to be deleted." }
                 }),
                 resolve: context =>
                 {
@@ -41,9 +44,9 @@ namespace Scar.Entities
             Field<ChannelGraph>("editChannel", description: "Update a channel.",
                 arguments: new QueryArguments(new[]
                 {
-                    new QueryArgument<StringGraphType>() { Name = "nodeId" },
-                    new QueryArgument<StringGraphType>() { Name = "id" },
-                    new QueryArgument<StringGraphType>() { Name = "name", DefaultValue = "" }
+                    new QueryArgument<StringGraphType>() { Name = "nodeId", Description = "The id of the node this channel is in." },
+                    new QueryArgument<StringGraphType>() { Name = "id", Description = "The id of the channel to be edited." },
+                    new QueryArgument<StringGraphType>() { Name = "name", DefaultValue = "", Description = "The new name of the channel." }
                 }),
                 resolve: context =>
                 {

@@ -6,6 +6,9 @@ namespace Scar.Entities.Models
     {
         public UserGroupGraph()
         {
+            Name = "userGroup";
+            Description = "A collection of users sharing permissions within a node.";
+
             Field(g => g.Id)
                 .Name("id")
                 .Description("The unique identifier of the usergroup.");

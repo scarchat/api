@@ -6,7 +6,7 @@ namespace Scar.Entities.Models
     {
         public MemberMetadataGraph()
         {
-            Name = "member_metadata";
+            Name = "memberMetadata";
             Description = "Node-specific user metadata.";
 
             Field(m => m.Id)

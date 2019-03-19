@@ -6,7 +6,7 @@ namespace Scar.Entities.Models
     {
         public ChannelPermissionsGraph()
         {
-            Name = "channel_permissions";
+            Name = "channelPermissions";
             Description = "A container for permissions metadata relating to node usergroups.";
 
             Field(x => x.Id)

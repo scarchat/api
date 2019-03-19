@@ -29,6 +29,9 @@ namespace Scar.Entities
 
         public ScarChatQuery()
         {
+            Name = "queryApi";
+            Description = "Provides methods to query information over HTTP.";
+
             Field<UserGraph>("user", description: "Allows consumers to access user data by id.",
                 arguments: new QueryArguments(new QueryArgument<IdGraphType>() { Name = "id" }),
                 resolve: context =>

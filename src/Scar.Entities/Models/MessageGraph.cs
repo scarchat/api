@@ -6,6 +6,9 @@ namespace Scar.Entities.Models
     {
         public MessageGraph()
         {
+            Name = "message";
+            Description = "A text message sent by users on the Scar platform.";
+
             Field(m => m.Id)
                 .Name("id")
                 .Description("The unique identifier of the message.");
