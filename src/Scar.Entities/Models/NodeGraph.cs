@@ -18,7 +18,7 @@ namespace Scar.Entities.Models
                 .Description("The name of the node.");
 
             Field(n => n.CdnIcon)
-                .Name("cdn_icon")
+                .Name("cdnIcon")
                 .Description("The unique hash of the icon accessible through the Scar CDN.");
 
             Field<ListGraphType<ChannelGraph>>()
@@ -26,11 +26,11 @@ namespace Scar.Entities.Models
                 .Description("Channels available to node users.");
 
             Field<ListGraphType<UserGroupGraph>>()
-                .Name("user_groups")
+                .Name("userGroups")
                 .Description("Usergroups that node members can belong to.");
 
             Field<ListGraphType<MemberMetadataGraph>>()
-                .Name("member_metadata")
+                .Name("memberMetadata")
                 .Description("Node-specific user metadata.");
         }
     }

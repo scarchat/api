@@ -19,7 +19,7 @@ namespace Scar.Entities.Models
                 .Name("username");
 
             Field(u => u.CdnIcon, nullable: true)
-                .Name("cdn_icon");
+                .Name("cdnIcon");
         }
     }
 }

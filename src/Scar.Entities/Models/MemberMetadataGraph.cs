@@ -21,7 +21,7 @@ namespace Scar.Entities.Models
                 .Description("The nickname of the user.");
 
             Field<UserGroupGraph>()
-                .Name("user_groups")
+                .Name("userGroups")
                 .Description("The usergroups this user is a member of.");
         }
     }
